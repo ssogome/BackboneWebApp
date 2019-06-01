@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Backbone-Test</title>
+    <script src="jquery-3.4.1.min.js"></script>
+    <script src="underscore.js"></script>
+    <script src="backbone.js"></script>
+    <script src="Scripts/Test0.js"></script>
+    <script src="Scripts/Test1.js"></script>
+    <script src="Scripts/Test2.js"></script>
+    <script src="Scripts/Test3.js"></script>
+    <!--<script src="WithoutRoute.js"></script>-->
+    <script>
+        $(document).ready(function () {
+            var book1 = new Book({ ID: 1, BookName: "Book 1" });
+            var book2 = new Book({ ID: 2, BookName: "Book 2" });
+            var book3 = new Book({ ID: 3, BookName: "Book 3" });
+            var book4 = new Book({ ID: 4, BookName: "Book 4" });
+            var book5 = new Book({ ID: 5, BookName: "Book 5" });
+            var bookCollection = new BooksCollection([book1, book2, book3, book4, book5]);
+            var bookList = new bookListView({ el: $("#bookList"), model: bookCollection });
+            var bookList2 = new bookListView2({el: $("#bookList"), model: bookCollection });
+            bookList.render();
+            bookList2.render();   
+
+            //Wait sometime before acting
+            setTimeout(5000, book1.set('BookName', book1.get('BookName') + '_updated'));
+
+            var greeting = new GreetModel({ Message: "Hello world" });
+
+            var container = new ContainerView({ el: $("#AppContainer"), model: greeting });
+            
+
+            $('#addBook').click(function AddMoreBooks () {
+                var i = bookCollection.length + 1;
+                var newBook = new Book({ ID: i, BookName: 'yet another book_' + i });
+
+                bookCollection.add(newBook);
+                $("#bookList").empty();
+                bookList.render();
+                bookList2.render();                  
+            })
+            $('#view1').click(function () { showView1(); });
+            $('#view2').click(function () { showView2(); });
+            $('#view3').click(function () { showView3(); });
+            function showView1() {
+                if (view1 == null) {
+                    view1 = new View1({ model: greeting });
+                }
+
+                container.myChildView = view1;
+                container.render();
+            }
+            function showView2() {
+                if (view2 == null) {
+                    view2 = new View2({ model: greeting });
+                }
+
+                container.myChildView = view2;
+                container.render();
+            }
+            function showView3() {
+                if (view3 == null) {
+                    view3 = new View3({ model: greeting });
+                }
+
+                container.myChildView = view3;
+                container.render();
+            }
+        });
+        
+    </script>
+    <script type="text/template" id="bookItem">
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> <%= BookName %> </a></li>
+    </script>
+</head>
+<body>
+    <button style="background-color:Red" onclick="AddMoreBooks()" id="addBook">Testing </button>
+    <button style="background-color:Blue" onclick="view1()" id="view1">View 1 </button>
+    <button style="background-color:Yellow" onclick="view2()" id="view2">View 2 </button>
+    <button style="background-color:Green" onclick="view3()" id="view3">View 3 </button>
+    <div id="AppContainer">
+    </div>
+    <ul id="bookList"></ul>
+</body>
+</html>
