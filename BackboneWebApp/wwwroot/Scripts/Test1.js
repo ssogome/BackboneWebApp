@@ -1,8 +1,9 @@
 ﻿'Use strict';
+var app = app || {};
 //alert("rendering 1: Views and listen to Events");
-var bookView = Backbone.View.extend({
+ app.bookView = Backbone.View.extend({
 	tagName: "li",
-	model: Book,
+	model: app.Book,
 	initialize: function () {
 		//alert('BookView has been initialized');
 	},
@@ -12,8 +13,8 @@ var bookView = Backbone.View.extend({
 	}
 });
 
-var bookListView = Backbone.View.extend({
-	model: BooksCollection,
+ app.bookListView = Backbone.View.extend({
+	model: app.BooksCollection,
 	initialize: function () {
 		// lets listen to model change and update ourselves
 		this.listenTo(this.model, "add", this.modelUpdated);
@@ -26,7 +27,7 @@ var bookListView = Backbone.View.extend({
 
 		for (var i = 0; i < this.model.length; ++i) {
 			// lets create a book view to render
-			var m_bookView = new bookView({ model: this.model.at(i) });
+			var m_bookView = new app.bookView({ model: this.model.at(i) });
 
 			// lets add this book view to this list view
 			this.$el.append(m_bookView.$el);

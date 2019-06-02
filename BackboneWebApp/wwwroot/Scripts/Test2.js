@@ -1,8 +1,8 @@
 ﻿'Use strict';
-
+var app = app || {};
 //alert("redenring...2: No route case");
 
-var ContainerView = Backbone.View.extend({		
+	app.ContainerView = Backbone.View.extend({		
 		myChildView: null,
 
 		render: function () {
@@ -14,7 +14,7 @@ var ContainerView = Backbone.View.extend({
 	});
 
 
-	var View1 = Backbone.View.extend({
+	app.View1 = Backbone.View.extend({
 
 		initialize: function () {
 			this.render();
@@ -26,7 +26,7 @@ var ContainerView = Backbone.View.extend({
 		}
 	});
 
-	var View2 = Backbone.View.extend({
+	app.View2 = Backbone.View.extend({
 
 		initialize: function () {
 			this.render();
@@ -38,7 +38,7 @@ var ContainerView = Backbone.View.extend({
 		}
 	});
 
-	var View3 = Backbone.View.extend({
+	app.View3 = Backbone.View.extend({
 
 		initialize: function () {
 			this.render();
@@ -50,32 +50,6 @@ var ContainerView = Backbone.View.extend({
 		}
 	});	
 
-function showView1() {
-		if (view1 == null) {
-			view1 = new View1({ model: greeting });
-		}
-
-		container.myChildView = view1;
-		container.render();
-	}
-
-	function showView2() {
-		if (view2 == null) {
-			view2 = new View2({ model: greeting });
-		}
-
-		container.myChildView = view2;
-		container.render();
-	}
-
-	function showView3() {
-		if (view3 == null) {
-			view3 = new View3({ model: greeting });
-		}
-
-		container.myChildView = view3;
-		container.render();
-	}
 var view1 = null;
 var view2 = null;
 var view3 = null;

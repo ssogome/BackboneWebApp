@@ -10,43 +10,50 @@
     <script src="Scripts/Test1.js"></script>
     <script src="Scripts/Test2.js"></script>
     <script src="Scripts/Test3.js"></script>
-    <!--<script src="WithoutRoute.js"></script>-->
+    <script src="Scripts/Test4.js"></script>
+    <script src="Scripts/Test5.js"></script>
+    <script src="Scripts/Test6.js"></script>
     <script>
         $(document).ready(function () {
-            var book1 = new Book({ ID: 1, BookName: "Book 1" });
-            var book2 = new Book({ ID: 2, BookName: "Book 2" });
-            var book3 = new Book({ ID: 3, BookName: "Book 3" });
-            var book4 = new Book({ ID: 4, BookName: "Book 4" });
-            var book5 = new Book({ ID: 5, BookName: "Book 5" });
-            var bookCollection = new BooksCollection([book1, book2, book3, book4, book5]);
-            var bookList = new bookListView({ el: $("#bookList"), model: bookCollection });
-            var bookList2 = new bookListView2({el: $("#bookList"), model: bookCollection });
+            var book1 = new app.Book({ ID: 1, BookName: "Book 1" });
+            var book2 = new app.Book({ ID: 2, BookName: "Book 2" });
+            var book3 = new app.Book({ ID: 3, BookName: "Book 3" });
+            var book4 = new app.Book({ ID: 4, BookName: "Book 4" });
+            var book5 = new app.Book({ ID: 5, BookName: "Book 5" });
+            var bookCollection = new app.BooksCollection([book1, book2, book3, book4, book5]);
+            var bookList = new app.bookListView({ el: $("#bookList"), model: bookCollection });
+            var bookList2 = new app.bookListView2({el: $("#bookList"), model: bookCollection });
             bookList.render();
-            bookList2.render();   
+            bookList2.render();              
 
             //Wait sometime before acting
             setTimeout(5000, book1.set('BookName', book1.get('BookName') + '_updated'));
 
-            var greeting = new GreetModel({ Message: "Hello world" });
+            var greeting = new app.GreetModel({ Message: "Hello world" });
 
-            var container = new ContainerView({ el: $("#AppContainer"), model: greeting });
+            var container = new app.ContainerView({ el: $("#AppContainer"), model: greeting });
             
+            //Instantiate a router
+            var myRouter = new app.myRouter();
+            var myparamRouter = new app.myparamRouter();
+            Backbone.history.start();            
 
             $('#addBook').click(function AddMoreBooks () {
                 var i = bookCollection.length + 1;
-                var newBook = new Book({ ID: i, BookName: 'yet another book_' + i });
+                var newBook = new app.Book({ ID: i, BookName: 'yet another book_' + i });
 
                 bookCollection.add(newBook);
                 $("#bookList").empty();
                 bookList.render();
-                bookList2.render();                  
+                bookList2.render();
+                setTimeout(3600000, myRouter.navigate('view3', {trigger:true}));
             })
-            $('#view1').click(function () { showView1(); });
-            $('#view2').click(function () { showView2(); });
-            $('#view3').click(function () { showView3(); });
+            $('#view1').click(function () { showView1();  app.NotifyMe(" Hello by the way"); });
+            $('#view2').click(function () { myRouter.navigate('viewRoute2', {trigger:true});});
+            $('#view3').click(function () { myparamRouter.navigate('view/3', { trigger: true }); });
             function showView1() {
                 if (view1 == null) {
-                    view1 = new View1({ model: greeting });
+                    view1 = new app.View1({ model: greeting });
                 }
 
                 container.myChildView = view1;
@@ -54,7 +61,7 @@
             }
             function showView2() {
                 if (view2 == null) {
-                    view2 = new View2({ model: greeting });
+                    view2 = new app.View2({ model: greeting });
                 }
 
                 container.myChildView = view2;
@@ -62,7 +69,7 @@
             }
             function showView3() {
                 if (view3 == null) {
-                    view3 = new View3({ model: greeting });
+                    view3 = new app.View3({ model: greeting });
                 }
 
                 container.myChildView = view3;
@@ -81,6 +88,10 @@
     <button style="background-color:Yellow" onclick="view2()" id="view2">View 2 </button>
     <button style="background-color:Green" onclick="view3()" id="view3">View 3 </button>
     <div id="AppContainer">
+    </div>
+    <div id="rAppContainer">
+    </div>
+    <div id="rpAppContainer">
     </div>
     <ul id="bookList"></ul>
 </body>

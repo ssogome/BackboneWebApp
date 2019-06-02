@@ -1,9 +1,13 @@
 ﻿'Use strict';
 //alert("rendering 0: models");
+var app = app || {};
+app.GreetModel = Backbone.Model.extend({
+	defaults: {
+		Message: ""
+	}
+});
 
-var GreetModel = Backbone.Model.extend();
-
-var Book = Backbone.Model.extend({
+    app.Book = Backbone.Model.extend({
 	defaults: {
 		ID: "",
 		BookName: ""
@@ -21,8 +25,8 @@ var Book = Backbone.Model.extend({
 	}
 });
 
-var BooksCollection = Backbone.Collection.extend({
-	model: Book,
+    app.BooksCollection = Backbone.Collection.extend({
+	model: app.Book,
 
 	initialize: function () {
 		//alert('Books collection has been created');
